@@ -4,6 +4,8 @@ import { TierBadge } from './TierBadge';
 import { StatusIndicator } from './StatusIndicator';
 import { BountyTags } from './BountyTags';
 import { TimeAgo } from '../common/TimeAgo';
+import { CountdownTimer } from './CountdownTimer';
+
 export function formatTimeRemaining(dl: string): string {
   const d = new Date(dl).getTime() - Date.now();
   if (d <= 0) return 'Expired';
@@ -67,7 +69,9 @@ export function BountyCard({ bounty: b, onClick }: { bounty: Bounty; onClick: (i
           data-testid={'bounty-tags-' + b.id}
         />
         <div className="flex justify-between pt-3 mt-3 border-t border-gray-200 dark:border-surface-300">
-          <span className={'text-xs ' + (urg ? 'text-accent-red' : 'text-gray-500')} data-testid="time-remaining">{tr}</span>
+          <span className={'text-xs ' + (urg ? 'text-accent-red' : 'text-gray-500')} data-testid="time-remaining">
+            {b.deadline && <CountdownTimer deadline={b.deadline} size="sm" />}
+          </span>
           <span className="text-xs text-gray-500">{b.submissionCount} submission{b.submissionCount !== 1 ? 's' : ''}</span>
         </div>
         {b.createdAt && (
